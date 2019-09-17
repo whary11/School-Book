@@ -34,9 +34,11 @@ function existToken() {
 
 router.beforeEach( (to, from, next) => {
     console.log(to);
-    if ((to.name == 'login')  && JSON.parse(localStorage.auth) == true) {
+    if ((to.name == 'login')  && JSON.parse(localStorage.auth)) {
         console.log(to.name);
         next({ path: '/gateway' })
+    }else{
+        next()
     }
 });
 export default router;
