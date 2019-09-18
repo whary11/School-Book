@@ -2,16 +2,16 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-class CreateUsersTable extends Migration
+class CreateIntitutionsTable extends Migration
 {
     /**
      * Schema table name to migrate
      * @var string
      */
-    public $tableName = 'users';
+    public $tableName = 'intitutions';
     /**
      * Run the migrations.
-     * @table users
+     * @table intitutions
      *
      * @return void
      */
@@ -21,12 +21,9 @@ class CreateUsersTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('name', 45);
-            $table->string('email', 100);
-            $table->string('password', 200);
-            $table->string('email_verified_at', 45)->nullable();
-            $table->string('remember_token', 45);
-
-            $table->unique(["email"], 'email_UNIQUE');
+            $table->string('email', 45);
+            $table->string('description')->nullable();
+            $table->string('address', 45)->nullable();
             $table->timestamps();
         });
     }
