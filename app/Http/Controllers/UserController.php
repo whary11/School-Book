@@ -9,6 +9,7 @@ class UserController extends FatherController
         return  $this->responseApp($users, 'success', ['type'=>'success', 'content'=>'Registros consultados co éxito.']);
     }
 
+    
     public function saveUser(){
         return 'Guardar usuario';
     }
