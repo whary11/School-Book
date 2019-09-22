@@ -20,6 +20,36 @@ class RoleController extends FatherController
         return $this->responseApp(Permission::all(), true, []);
     }
 
+    public function createRole(Request $request)
+    {
+        $succes = '';
+        $error = "";
+        DB::beginTransaction();
+        try {
+            //Crear rol y luego añadir los permisos
+            $role = Role::create([
+                'name' => $request->name,
+                'guard_name' => 'web'
+            ]);
+            $permissions = [];
+            foreach ($request->permissions as $key => $value) {
+                array_push($permissions, $value['name']);
+            }
+            $role->syncPermissions($permissions);
+            $succes = true;
+            DB::commit();
+        } catch (\Throwable $th) {
+            $succes = false;
+            $error = $th->getMessage();
+            DB::rollBack();
+        }
+        if ($succes) {
+            return $this->responseApp(Role::with('permissions')->get(), true, []);
+        } else {
+            return $this->responseApp([], false, ['message' => $error]);
+        }
+    }
+
     public function editRole(Request $request)
     {
         $succes = '';

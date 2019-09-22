@@ -28,6 +28,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('allRoles', 'RoleController@allRoles');
         Route::get('allPermissions', 'RoleController@allPermissions');
         Route::post('editRole', 'RoleController@editRole');
+        Route::post('createRole', 'RoleController@createRole');
     });
     Route::group(['prefix' => 'auth'], function () {
         Route::post('logout', 'AuthController@logout');

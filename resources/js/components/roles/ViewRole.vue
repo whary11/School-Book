@@ -17,9 +17,6 @@
             </button>
           </div>
           <div class="modal-body">
-            <pre>
-              {{role}}
-            </pre>
             <!-- <form class="needs-validation"> -->
             <div class="form-group">
               <label for="name">Nombre del rol</label>
@@ -91,17 +88,19 @@ export default {
         this.role_error.name.class = ["is-invalid", "invalid-feedback"];
       } else {
         axios
-          .post(this.url, this.role)
+          .post(this.getUrl, this.role)
           .then(resp => {
-            this.$emit("updateRoles", resp.data.data);
-            $("#roles").modal("hide");
-            this.$message({
-              supportHTML: true,
-              message: "Permisos actualizados con éxito.",
-              zIndex: 2000,
-              position: "top-right",
-              iconImg: "/fonts/font-svg/check-solid.svg"
-            });
+            if (resp.data.transaction.status) {
+              this.$emit("updateRoles", resp.data.data);
+              $("#roles").modal("hide");
+              this.$message({
+                supportHTML: true,
+                message: "Permisos actualizados con éxito.",
+                zIndex: 2000,
+                position: "top-right",
+                iconImg: "/fonts/font-svg/check-solid.svg"
+              });
+            }
           })
           .catch(error => {
             console.log(error);
@@ -112,9 +111,9 @@ export default {
   computed: {
     getUrl() {
       if (this.role.created_at) {
-        return (this.url = "/api/role/allPermissions");
+        return (this.url = "/api/role/editRole");
       } else {
-        return (this.url = "api/role/create");
+        return (this.url = "/api/role/createRole");
       }
     }
   }
