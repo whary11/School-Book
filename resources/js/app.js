@@ -7,6 +7,17 @@ import router from './admin/router'
 import store from './admin/store'
 
 import VueRouter from 'vue-router'
+import {
+    ClientTable
+} from 'vue-tables-2';
+import vSelect from 'vue-select'
+import 'vue-select/dist/vue-select.css';
+import Message from 'vue-m-message'
+
+
+
+
+
 
 require('./bootstrap');
 
@@ -18,6 +29,8 @@ window.Vue = require('vue');
 /// Uses
 
 Vue.use(VueRouter)
+Vue.use(ClientTable);
+Vue.use(Message)
 
 /**
  * The following block of code may be used to automatically register your
@@ -31,6 +44,8 @@ Vue.use(VueRouter)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('index', require('./components/Index.vue').default);
+Vue.component('v-select', vSelect)
+// Vue.component('mdb-datatable', mdbDatatable);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

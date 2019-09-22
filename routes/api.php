@@ -13,8 +13,23 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::group(['prefix' => 'auth'], function () {
+    Route::post('login', 'AuthController@login');
+});
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/user/getUserAll', 'UserController@getUserAll');
+
+
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::group(['prefix' => 'role'], function () {
+        Route::get('allRoles', 'RoleController@allRoles');
+        Route::get('allPermissions', 'RoleController@allPermissions');
+        Route::post('editRole', 'RoleController@editRole');
+    });
+    Route::group(['prefix' => 'auth'], function () {
+        Route::post('logout', 'AuthController@logout');
+    });
+});
