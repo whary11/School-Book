@@ -50,7 +50,6 @@ class AuthController extends FatherController
         $token->save();
         // return true;
 
-        $user->givePermissionTo('edit stuedent');
 
         return response()->json([
             'access_token' => $tokenResult->accessToken,

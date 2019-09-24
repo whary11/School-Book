@@ -53,6 +53,7 @@ class RoleController extends FatherController
     public function editRole(Request $request)
     {
         $succes = '';
+        $error = "";
         DB::beginTransaction();
         try {
             //Editar el rol, y luego asignale los permisos que vienen creados
@@ -78,7 +79,7 @@ class RoleController extends FatherController
         if ($succes) {
             return $this->responseApp(Role::with('permissions')->get(), true, []);
         } else {
-            return $this->responseApp([], false, []);
+            return $this->responseApp($error, false, []);
         }
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\User;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 
@@ -15,16 +16,30 @@ class DatabaseSeeder extends Seeder
     {
         // $this->call(UsersTableSeeder::class);
 
-
-
-
-
-        User::create([
+        $luis = User::create([
             'name' => 'Luis Fernando Raga',
-            'email' =>'whary11@gmail.com',
+            'email' => 'whary11@gmail.com',
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
             'remember_token' => Str::random(10),
             'email_verified_at' => now(),
         ]);
+
+
+
+        $david = User::create([
+            'name' => 'David Raga Renteria',
+            'email' => 'dragarenteria@gmail.com',
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+            'remember_token' => Str::random(10),
+            'email_verified_at' => now(),
+        ]);
+
+        Role::create([
+            'name' => 'SUPERADMIN',
+            'description' => 'Administrador de toda la aplicación, tiene todoslos permisos.'
+        ]);
+
+        $david->assignRole('SUPERADMIN');
+        $luis->assignRole('SUPERADMIN');
     }
 }

@@ -7,11 +7,7 @@
             <div class="card p-4">
               <div class="card-body">
                 <h1>Login</h1>
-
-                <pre>
-                    {{auth}}
-                </pre>
-                <p class="text-muted">Sign In to your account</p>
+                <p class="text-muted">Iniciar sesión en su cuenta</p>
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text">
@@ -40,10 +36,10 @@
                 </div>
                 <div class="row">
                   <div class="col-6">
-                    <button class="btn btn-primary px-4" type="button" @click="iniciar()">Login</button>
+                    <button class="btn btn-primary px-4" type="button" @click="iniciar()">Iniciar</button>
                   </div>
                   <div class="col-6 text-right">
-                    <button class="btn btn-link px-0" type="button">Forgot password?</button>
+                    <button class="btn btn-link px-0" type="button">Se te olvidó tu contraseña?</button>
                   </div>
                 </div>
               </div>
