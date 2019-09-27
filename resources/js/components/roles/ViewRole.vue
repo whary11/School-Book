@@ -104,6 +104,14 @@ export default {
       if (this.role.name == "") {
         this.role_error.name.class = ["is-invalid", "invalid-feedback"];
       } else {
+        console.log(this.role.permissions);
+
+        let permissions = [];
+        this.role.permissions.map(permission => {
+          permissions.push(permission.name);
+        });
+
+        this.role.permissions = permissions;
         axios
           .post(this.getUrl, this.role)
           .then(resp => {
@@ -134,8 +142,10 @@ export default {
   },
   computed: {
     getUrl() {
-      if (this.role.created_at) {
+      if (this.role.guard_name) {
         return (this.url = "/api/role/editRole");
+      } else if (this.role.email) {
+        return (this.url = "/api/role/assign_permissions_to_user");
       } else {
         return (this.url = "/api/role/createRole");
       }

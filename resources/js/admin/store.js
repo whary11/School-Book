@@ -5,7 +5,8 @@ Vue.use(Vuex)
 const stores = new Vuex.Store({
     state: {
         auth: JSON.parse(localStorage.getItem('auth')),
-        currentUser: JSON.parse(localStorage.getItem('currentUser'))
+        currentUser: JSON.parse(localStorage.getItem('currentUser')),
+        user: {}
     },
     mutations: {
 
@@ -14,6 +15,11 @@ const stores = new Vuex.Store({
             localStorage.setItem('auth', data.status)
             localStorage.setItem('currentUser', JSON.stringify(data))
         },
+
+
+        setUser(state, data) {
+            state.user = data
+        }
 
 
 
@@ -26,6 +32,16 @@ const stores = new Vuex.Store({
 
     },
     actions: {
+        getUser({
+            commit
+        }) {
+            axios
+                .get("/api/auth/getUser")
+                .then(res => {
+                    commit('setUser', res.data.data)
+                })
+                .catch(function (error) {});
+        },
 
 
         rediretNoAuth({

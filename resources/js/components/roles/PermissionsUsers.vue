@@ -1,8 +1,5 @@
 <template>
   <div class="card" v-if="rolesTable.rows.length >0">
-    <div class="card-header">
-      <button class="btn btn-sm btn-success" @click="showModlaRoles()">Crear</button>
-    </div>
     <div class="card-body" v-if="rolesTable.rows.length >0">
       <v-client-table
         :pagination="{edge:true}"
@@ -22,7 +19,6 @@
         >Editar</button>
       </v-client-table>
     </div>
-
     <view-role :role="role" @updateRoles="updateRoles"></view-role>
   </div>
 </template>
@@ -35,7 +31,7 @@ export default {
   data() {
     return {
       rolesTable: {
-        columns: ["name", "created_at", "updated_at", "Editar"],
+        columns: ["name", "email", "created_at", "updated_at", "Editar"],
         rows: []
       },
       role: {},
@@ -49,16 +45,16 @@ export default {
       perPage: 5,
       texts: {
         count:
-          "Montrando del {from} al {to} de {count} roles|{count} roles|1 rol",
+          "Montrando del {from} al {to} de {count} Usuarios|{count} Usuarios|1 rol",
         first: "First",
         last: "Last",
         filter: "",
-        filterPlaceholder: "Buscar rol",
+        filterPlaceholder: "Buscar usuario",
         limit: "",
         page: "Page:",
-        noResults: "No matching records",
+        noResults: "Sin resultados",
         filterBy: "Filter by {column}",
-        loading: "Cargando...",
+        loading: "Cargando usuarios...",
         defaultOption: "Select {column}",
         columns: "Columns"
       }
@@ -70,7 +66,7 @@ export default {
   methods: {
     getRoles() {
       axios
-        .get("/api/role/allRoles")
+        .get("/api/role/allUsers")
         .then(resp => {
           this.rolesTable.rows = resp.data.data;
         })

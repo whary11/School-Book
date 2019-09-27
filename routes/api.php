@@ -24,13 +24,21 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::group(['middleware' => 'auth:api'], function () {
+
+
     Route::group(['prefix' => 'role'], function () {
-        Route::get('allRoles', 'RoleController@allRoles');
-        Route::get('allPermissions', 'RoleController@allPermissions');
-        Route::post('editRole', 'RoleController@editRole');
-        Route::post('createRole', 'RoleController@createRole');
+        //Permisos vs Roles
+        Route::get('allRoles', 'PermissionController@allRoles');
+        Route::get('allPermissions', 'PermissionController@allPermissions');
+        Route::post('editRole', 'PermissionController@editRole');
+        Route::post('createRole', 'PermissionController@createRole');
+
+        //Permisos vs usuarios
+        Route::get('allUsers', 'PermissionController@allUsers');
+        Route::post('assign_permissions_to_user', 'PermissionController@assignPermissionsToUser');
     });
     Route::group(['prefix' => 'auth'], function () {
         Route::post('logout', 'AuthController@logout');
+        Route::get('/getUser', 'UserController@getUser');
     });
 });

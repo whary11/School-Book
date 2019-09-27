@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
@@ -50,12 +51,10 @@ class AuthController extends FatherController
         $token->save();
         // return true;
 
-
         return response()->json([
             'access_token' => $tokenResult->accessToken,
             'token_type'   => 'Bearer',
-            'user'  => Auth::user(),
-            'permisos' => Auth::user()->allPermissions,
+            'user'  => User::where('id', $user->id)->with(['permissions'])->first(),
             'expires_at'   => Carbon::parse(
                 $tokenResult->token->expires_at
             )

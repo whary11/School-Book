@@ -68,11 +68,14 @@
             aria-haspopup="true"
             aria-expanded="false"
           >
-            <img class="img-avatar" src="/img/avatars/6.jpg" alt="admin@bootstrapmaster.com" />
+            <div class="avatar">
+              <img class="img-avatar" :src="user.avatar" :alt="user.name" v-if="user.avatar" />
+              <span class="avatar-status badge-danger"></span>
+            </div>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
             <div class="dropdown-header text-center">
-              <strong>Account</strong>
+              <strong>Cuenta</strong>
             </div>
             <a class="dropdown-item" href="#">
               <i class="fa fa-bell-o"></i> Updates
@@ -91,7 +94,7 @@
               <span class="badge badge-warning">42</span>
             </a>
             <div class="dropdown-header text-center">
-              <strong>Settings</strong>
+              <strong>Configuraciones</strong>
             </div>
             <a class="dropdown-item" href="#">
               <i class="fa fa-user"></i> Profile
@@ -112,7 +115,7 @@
               <i class="fa fa-shield"></i> Lock Account
             </a>
             <a class="dropdown-item" href="#" @click="logout()">
-              <i class="fa fa-lock"></i> Logout
+              <i class="fa fa-lock"></i> Cerrar sesión
             </a>
           </div>
         </li>
@@ -142,11 +145,25 @@
                 <span class="badge badge-primary">NEW</span>
               </router-link>
             </li>
-            <li class="nav-item">
-              <router-link tag="a" to="/gateway/roles" class="nav-link">
-                <i class="nav-icon fas fa-pencil-ruler"></i> Roles
-                <!-- <span class="badge badge-primary"></span> -->
-              </router-link>
+
+            <li class="nav-item nav-dropdown">
+              <a class="nav-link nav-dropdown-toggle" href="#">
+                <i class="nav-icon icon-puzzle"></i> Permisos
+              </a>
+
+              <ul class="nav-dropdown-items">
+                <!-- <li class="nav-item"> -->
+                <li class="nav-item">
+                  <router-link tag="a" to="/gateway/permissions_roles" class="nav-link">
+                    <i class="nav-icon fas fa-pencil-ruler"></i> Permisos vs Roles
+                  </router-link>
+                </li>
+                <li class="nav-item">
+                  <router-link tag="a" to="/gateway/permissions_users" class="nav-link">
+                    <i class="nav-icon fas fa-pencil-ruler"></i> Permisos vs Usuarios
+                  </router-link>
+                </li>
+              </ul>
             </li>
           </ul>
         </nav>
@@ -572,9 +589,11 @@ export default {
   data() {
     return {};
   },
-  mounted() {},
+  mounted() {
+    this.getUser();
+  },
   methods: {
-    ...mapActions(["rediretNoAuth"]),
+    ...mapActions(["rediretNoAuth", "getUser"]),
     logout() {
       axios
         .post("/api/auth/logout")
@@ -594,7 +613,7 @@ export default {
   },
 
   computed: {
-    ...mapState(["auth"])
+    ...mapState(["auth", "user"])
   }
 };
 </script>

@@ -1,8 +1,8 @@
 import VueRouter from 'vue-router'
 import Login from '../components/auth/Login'
 import Dashboard from '../components/Dashboard/Dashboard.vue'
-
-import AdminRoles from '../components/roles/AdminRoles'
+import PermissionsUsers from '../components/Roles/PermissionsUsers'
+import PermissionsRoles from '../components/Roles/PermissionsRoles'
 // import Login from '../components/auth/LoginComponent'
 
 const routes = [{
@@ -30,9 +30,24 @@ const routes = [{
 
     },
     {
-        path: '/gateway/roles',
+        path: '/gateway/permissions_roles',
         name: 'roles',
-        component: AdminRoles,
+        component: PermissionsRoles,
+        beforeEnter: (to, from, next) => {
+            if (JSON.parse(localStorage.getItem('auth'))) {
+                next(true)
+            } else {
+                next({
+                    path: '/gateway/login'
+                })
+            }
+        }
+
+    },
+    {
+        path: '/gateway/permissions_users',
+        name: 'roles',
+        component: PermissionsUsers,
         beforeEnter: (to, from, next) => {
             if (JSON.parse(localStorage.getItem('auth'))) {
                 next(true)
@@ -78,4 +93,20 @@ router.beforeEach((to, from, next) => {
     }
 
 });
+
+
+
+function can(permission) {
+    let permissionsUser = (JSON.parse(localStorage.getItem('currentUser'))) ? JSON.parse(localStorage.getItem('currentUser')).user.permissions : []
+    // console.log(permission);
+
+    permissionsUser.map((per) => {
+        if (per.name == permission) {
+            // console.log(per.name);
+            return 'OK'
+        }
+    })
+}
+
+console.log(can('students create'))
 export default router;
