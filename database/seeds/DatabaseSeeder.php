@@ -1,5 +1,12 @@
 <?php
 
+use App\Arl;
+use App\Neighborhood;
+use App\Compensation;
+use App\BloodGroup;
+use App\DocumentType;
+use App\Eps;
+use App\Sex;
 use App\User;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Str;
@@ -16,8 +23,18 @@ class DatabaseSeeder extends Seeder
     {
         // $this->call(UsersTableSeeder::class);
 
+        factory(DocumentType::class, 30)->create();
+        factory(Arl::class, 30)->create();
+        factory(BloodGroup::class, 30)->create();
+        factory(Compensation::class, 30)->create();
+        factory(Eps::class, 30)->create();
+        factory(Neighborhood::class, 30)->create();
+        factory(Sex::class, 30)->create();
+        factory(Sex::class, 30)->create();
+
         $luis = User::create([
-            'name' => 'Luis Fernando Raga',
+            'names' => 'Luis Fernando',
+            'surnames' => 'Raga',
             'email' => 'whary11@gmail.com',
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
             'remember_token' => Str::random(10),
@@ -27,7 +44,8 @@ class DatabaseSeeder extends Seeder
 
 
         $david = User::create([
-            'name' => 'David Raga Renteria',
+            'names' => 'David',
+            'surnames' => 'Raga Renteria',
             'email' => 'dragarenteria@gmail.com',
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
             'remember_token' => Str::random(10),

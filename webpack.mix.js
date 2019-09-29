@@ -14,23 +14,23 @@ const mix = require('laravel-mix');
 // mix.js('resources/js/app.js', 'public/js')
 //    .sass('resources/sass/app.scss', 'public/css');
 
-   mix.js([
-      'node_modules/jquery/dist/jquery.min.js',
-      'node_modules/popper.js/dist/umd/popper.min.js',
-      'node_modules/bootstrap/dist/js/bootstrap.min.js',
-      'node_modules/pace-progress/pace.min.js',
-      'node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js',
-      'node_modules/@coreui/coreui/dist/js/coreui.min.js',
-      'node_modules/chart.js/dist/Chart.min.js',
-      'node_modules/@coreui/coreui-plugin-chartjs-custom-tooltips/dist/js/custom-tooltips.min.js',
-      'resources/js/app.js'
-    //   'resources/js/coreui/main.js'
-   ], 'public/js/appcolegios.min.js')
-   .babel([
-      'node_modules/@coreui/icons/css/coreui-icons.min.css',
-      'node_modules/flag-icon-css/css/flag-icon.min.css',
-      'node_modules/font-awesome/css/font-awesome.min.css',
-      'node_modules/simple-line-icons/css/simple-line-icons.css',
-      'resources/sass/style.css',
-      'resources/sass/pace.min.css',
-   ], 'public/css/appcolegios.min.css')
+mix.js([
+        'node_modules/jquery/dist/jquery.min.js',
+        'node_modules/popper.js/dist/umd/popper.min.js',
+        'node_modules/bootstrap/dist/js/bootstrap.min.js',
+        'node_modules/pace-progress/pace.min.js',
+        'node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js',
+        'node_modules/@coreui/coreui/dist/js/coreui.min.js',
+        'node_modules/chart.js/dist/Chart.min.js',
+        'node_modules/@coreui/coreui-plugin-chartjs-custom-tooltips/dist/js/custom-tooltips.min.js',
+        'resources/js/app.js'
+        //   'resources/js/coreui/main.js'
+    ], 'js/appcolegios.min.js')
+    .babel([
+        'node_modules/@coreui/icons/css/coreui-icons.min.css',
+        'node_modules/flag-icon-css/css/flag-icon.min.css',
+        'node_modules/font-awesome/css/font-awesome.min.css',
+        'node_modules/simple-line-icons/css/simple-line-icons.css',
+        'resources/sass/style.css',
+        'resources/sass/pace.min.css',
+    ], 'css/appcolegios.min.css')

@@ -5,6 +5,12 @@
  */
 import router from './admin/router'
 import store from './admin/store'
+import VueSweetalert2 from 'vue-sweetalert2';
+import {
+    Datetime
+} from 'vue-datetime'
+// You need a specific loader for CSS files
+import 'vue-datetime/dist/vue-datetime.css'
 
 import VueRouter from 'vue-router'
 import {
@@ -31,6 +37,7 @@ window.Vue = require('vue');
 Vue.use(VueRouter)
 Vue.use(ClientTable);
 Vue.use(Message)
+Vue.use(VueSweetalert2);
 
 /**
  * The following block of code may be used to automatically register your
@@ -45,6 +52,7 @@ Vue.use(Message)
 
 Vue.component('index', require('./components/Index.vue').default);
 Vue.component('v-select', vSelect)
+Vue.component('datetime', Datetime);
 // Vue.component('mdb-datatable', mdbDatatable);
 
 /**

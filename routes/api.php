@@ -41,4 +41,9 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::post('logout', 'AuthController@logout');
         Route::get('/getUser', 'UserController@getUser');
     });
+    Route::group(['prefix' => 'user'], function () {
+        Route::get('/getComplements', 'UserController@getComplements');
+        Route::post('/saveUser', 'UserController@saveUser');
+        Route::get('/getUsersAll', 'UserController@getUsersAll');
+    });
 });

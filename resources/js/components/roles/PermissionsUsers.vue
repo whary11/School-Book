@@ -31,12 +31,12 @@ export default {
   data() {
     return {
       rolesTable: {
-        columns: ["name", "email", "created_at", "updated_at", "Editar"],
+        columns: ["names", "email", "created_at", "updated_at", "Editar"],
         rows: []
       },
       role: {},
       headings: {
-        name: "Nombre",
+        names: "Nombre",
         created_at: "Fecha de creación",
         updated_at: "Fecha de actualización",
         3: "Editar"

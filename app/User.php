@@ -17,9 +17,28 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $guard_name = 'api';
+    // protected $guard_name = 'api';
     protected $fillable = [
-        'name', 'email', 'password',
+        'document_type_user_id',
+        'document',
+        'names',
+        'surnames',
+        'email',
+        'phone1',
+        'phone2',
+        'neighborhood_user_id',
+        'eps_user_id',
+        'sexe_user_id',
+        'arl_user_id',
+        'compensation_box_id',
+        'blood_group_id',
+        'birth_date',
+        'name_ref',
+        'phone_ref',
+        'relationship_ref',
+        'responable_user_id',
+        'remember_token',
+        'password'
     ];
 
     /**
@@ -39,4 +58,39 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function arl()
+    {
+        return $this->belongsTo(Arl::class, 'arl_user_id');
+    }
+
+    public function bloodGroup()
+    {
+        return $this->belongsTo(BloodGroup::class, 'blood_group_id');
+    }
+
+    public function compensation()
+    {
+        return $this->belongsTo(Compensation::class, 'compensation_box_id');
+    }
+
+    public function eps()
+    {
+        return $this->belongsTo(Eps::class, 'eps_user_id');
+    }
+
+    public function neighborhood()
+    {
+        return $this->belongsTo(Neighborhood::class, 'neighborhood_user_id');
+    }
+
+    public function sex()
+    {
+        return $this->belongsTo(Sex::class, 'sexe_user_id');
+    }
+
+    public function responsable()
+    {
+        return $this->belongsTo(User::class, 'responable_user_id');
+    }
 }

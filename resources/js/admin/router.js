@@ -3,6 +3,9 @@ import Login from '../components/auth/Login'
 import Dashboard from '../components/Dashboard/Dashboard.vue'
 import PermissionsUsers from '../components/Roles/PermissionsUsers'
 import PermissionsRoles from '../components/Roles/PermissionsRoles'
+
+import CreateStudents from '../components/Users/CraeteStudents'
+import CreateTeachers from '../components/Users/CreateTeachers'
 // import Login from '../components/auth/LoginComponent'
 
 const routes = [{
@@ -31,7 +34,7 @@ const routes = [{
     },
     {
         path: '/gateway/permissions_roles',
-        name: 'roles',
+        name: 'permissions_roles',
         component: PermissionsRoles,
         beforeEnter: (to, from, next) => {
             if (JSON.parse(localStorage.getItem('auth'))) {
@@ -46,8 +49,38 @@ const routes = [{
     },
     {
         path: '/gateway/permissions_users',
-        name: 'roles',
+        name: 'permissions_users',
         component: PermissionsUsers,
+        beforeEnter: (to, from, next) => {
+            if (JSON.parse(localStorage.getItem('auth'))) {
+                next(true)
+            } else {
+                next({
+                    path: '/gateway/login'
+                })
+            }
+        }
+
+    },
+    {
+        path: '/gateway/students',
+        name: 'students',
+        component: CreateStudents,
+        beforeEnter: (to, from, next) => {
+            if (JSON.parse(localStorage.getItem('auth'))) {
+                next(true)
+            } else {
+                next({
+                    path: '/gateway/login'
+                })
+            }
+        }
+
+    },
+    {
+        path: '/gateway/teachers',
+        name: 'teachers',
+        component: CreateTeachers,
         beforeEnter: (to, from, next) => {
             if (JSON.parse(localStorage.getItem('auth'))) {
                 next(true)
@@ -100,12 +133,21 @@ function can(permission) {
     let permissionsUser = (JSON.parse(localStorage.getItem('currentUser'))) ? JSON.parse(localStorage.getItem('currentUser')).user.permissions : []
     // console.log(permission);
 
+    let count = 0;
+
     permissionsUser.map((per) => {
         if (per.name == permission) {
             // console.log(per.name);
-            return 'OK'
+            count++
         }
     })
+
+
+    if (count > 0) {
+        return true
+    } else {
+        return false
+    }
 }
 
 console.log(can('students create'))

@@ -69,13 +69,13 @@
             aria-expanded="false"
           >
             <div class="avatar">
-              <img class="img-avatar" :src="user.avatar" :alt="user.name" v-if="user.avatar" />
+              <img class="img-avatar" :src="user.avatar" :alt="user.names" v-if="user.avatar" />
               <span class="avatar-status badge-danger"></span>
             </div>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
             <div class="dropdown-header text-center">
-              <strong>Cuenta</strong>
+              <strong>{{user.names}} {{user.surnames}}</strong>
             </div>
             <a class="dropdown-item" href="#">
               <i class="fa fa-bell-o"></i> Updates
@@ -97,7 +97,7 @@
               <strong>Configuraciones</strong>
             </div>
             <a class="dropdown-item" href="#">
-              <i class="fa fa-user"></i> Profile
+              <i class="fa fa-user"></i> Perfil
             </a>
             <a class="dropdown-item" href="#">
               <i class="fa fa-wrench"></i> Settings
@@ -141,14 +141,14 @@
           <ul class="nav">
             <li class="nav-item">
               <router-link tag="a" to="/gateway/" class="nav-link">
-                <i class="nav-icon icon-speedometer"></i> Dashboard
+                <i class="nav-icon fas fa-tachometer-alt"></i> Dashboard
                 <span class="badge badge-primary">NEW</span>
               </router-link>
             </li>
 
             <li class="nav-item nav-dropdown">
               <a class="nav-link nav-dropdown-toggle" href="#">
-                <i class="nav-icon icon-puzzle"></i> Permisos
+                <i class="nav-icon fas fa-universal-access"></i> Permisos
               </a>
 
               <ul class="nav-dropdown-items">
@@ -161,6 +161,25 @@
                 <li class="nav-item">
                   <router-link tag="a" to="/gateway/permissions_users" class="nav-link">
                     <i class="nav-icon fas fa-pencil-ruler"></i> Permisos vs Usuarios
+                  </router-link>
+                </li>
+              </ul>
+            </li>
+
+            <li class="nav-item nav-dropdown">
+              <a class="nav-link nav-dropdown-toggle" href="#">
+                <i class="nav-icon fas fa-school"></i> Usuarios
+              </a>
+              <ul class="nav-dropdown-items">
+                <!-- <li class="nav-item"> -->
+                <li class="nav-item">
+                  <router-link tag="a" to="/gateway/students" class="nav-link">
+                    <i class="nav-icon fas fa-user-graduate"></i> Estudiantes
+                  </router-link>
+                </li>
+                <li class="nav-item">
+                  <router-link tag="a" to="/gateway/teachers" class="nav-link">
+                    <i class="nav-icon fas fa-chalkboard-teacher"></i> Docentes
                   </router-link>
                 </li>
               </ul>

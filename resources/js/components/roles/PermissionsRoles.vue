@@ -1,10 +1,12 @@
 <template>
   <div class="card" v-if="rolesTable.rows.length >0">
     <div class="card-header">
-      <div class="row">
-        <div class="btn-group Justify-content-start" role="group" aria-label="Basic example">
-          <button class="btn btn-sm btn-primary j" @click="showModlaRoles()">Crear</button>
-        </div>
+      <div class="row Justify-content-center">
+        <h4 class="text-center">
+          <!-- <div class="btn-group" role="group" aria-label="Basic example"> -->
+          <button class="btn btn-sm btn-primary" @click="showModlaRoles()">Crear</button>
+          <!-- </div> -->
+        </h4>
       </div>
     </div>
     <div class="card-body" v-if="rolesTable.rows.length >0">
@@ -15,6 +17,7 @@
         :options="{
         texts,headings,perPage,collapseGroups
         }"
+        class="table-sm"
       >
         <button
           slot="Editar"

@@ -61,11 +61,11 @@ class PermissionController extends FatherController
                 'name' => $request->name,
                 'guard_name' => 'web'
             ]);
-            $permissions = [];
-            foreach ($request->permissions as $key => $value) {
-                array_push($permissions, $value['name']);
-            }
-            $role->syncPermissions($permissions);
+            // $permissions = [];
+            // foreach ($request->permissions as $key => $value) {
+            //     array_push($permissions, $value);
+            // }
+            $role->syncPermissions($request->permissions);
             $succes = true;
             DB::commit();
         } catch (\Throwable $th) {
