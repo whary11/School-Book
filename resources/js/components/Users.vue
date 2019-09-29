@@ -495,7 +495,8 @@ export default {
     config: {
       type: Object,
       default: {
-        scope: "usuario"
+        scope: "usuario",
+        rol: "student"
       }
     }
   },
@@ -559,12 +560,12 @@ export default {
     setUser() {
       if (this.showAlert == 0) {
         this.user.birth_date ? new Date(this.user.birth_date) : null;
+        this.user.newRol = this.config.rol;
         axios
           .post("/api/user/saveUser", this.user)
           .then(res => {
             if (res.data.transaction.status) {
               $("#modal_user").modal("hide");
-              console.log(res.data);
               this.$message({
                 supportHTML: true,
                 message: "Acción realizada con éxito.",

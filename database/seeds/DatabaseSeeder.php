@@ -54,6 +54,38 @@ class DatabaseSeeder extends Seeder
 
         Role::create([
             'name' => 'SUPERADMIN',
+            'display_name' => 'Super admin',
+            'description' => 'Administrador de toda la aplicación, tiene todoslos permisos.'
+        ]);
+
+        Role::create([
+            'name' => 'STUDENT',
+            'display_name' => 'Estudiante',
+            'description' => 'Administrador de toda la aplicación, tiene todoslos permisos.'
+        ]);
+
+        Role::create([
+            'name' => 'TEACHER',
+            'display_name' => 'Docente',
+
+            'description' => 'Administrador de toda la aplicación, tiene todoslos permisos.'
+        ]);
+        Role::create([
+            'name' => 'RECTOR',
+            'display_name' => 'Rector',
+            'description' => 'Administrador de toda la aplicación, tiene todoslos permisos.'
+        ]);
+
+        Role::create([
+            'name' => 'RESPONSABLE',
+            'display_name' => 'Acudiente',
+            'description' => 'Administrador de toda la aplicación, tiene todoslos permisos.'
+        ]);
+
+
+        Role::create([
+            'name' => 'COORDINATOR',
+            'display_name' => 'Coordinador',
             'description' => 'Administrador de toda la aplicación, tiene todoslos permisos.'
         ]);
 

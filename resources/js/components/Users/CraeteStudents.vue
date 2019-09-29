@@ -17,7 +17,8 @@ export default {
         rows: []
       },
       config: {
-        scope: "estudiante"
+        scope: "estudiante",
+        rol: "student"
       }
     };
   },
