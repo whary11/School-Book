@@ -28,15 +28,17 @@ class UserController extends FatherController
 
     public function saveUser(Request $request)
     {
-
         $success = false;
         DB::beginTransaction();
         try {
             $responsable =  $request->responsable;
-            if (!isset($responsable->created_at)) {
+
+
+            // return  json_encode(empty($responsable));
+            if (empty($responsable) && !isset($responsable->created_at)) {
                 //crear acudiente
                 $responsable = User::create([
-                    'document_type_user_id' => $responsable['documentType']['id'],
+                    'document_type_user_id' => $responsable['document_type']['id'],
                     'document' => $responsable['document'],
                     'names' => $responsable['names'],
                     'surnames' => $responsable['surnames'],
@@ -46,14 +48,13 @@ class UserController extends FatherController
                     'password' => Hash::make($responsable['document']),
                     'remember_token' => Str::random(10),
 
-                ]);
+                ])->assignRole('RESPONSABLE');
             }
             //crear estudiante
 
-
-            // return Carbon::parse($request->birth_date)->toDateTimeString();
+            // return $request->document_type['id'];
             User::create([
-                'document_type_user_id' => $request->documentType['id'],
+                'document_type_user_id' => $request->document_type['id'],
                 'document' => $request->document,
                 'names' => $request->names,
                 'surnames' => (isset($request->surnames)) ? $request->surnames : null,
@@ -65,16 +66,21 @@ class UserController extends FatherController
                 'sexe_user_id' => $request->sex['id'],
                 'arl_user_id' => (isset($request->arl['id'])) ? $request->arl['id'] : null,
                 'compensation_box_id' => (isset($request->compensation['id'])) ? $request->compensation['id'] : null,
-                'blood_group_id' => (isset($request->bloodGroup['id'])) ? $request->bloodGroup['id'] : null,
+                'blood_group_id' => (isset($request->blood_group['id'])) ? $request->blood_group['id'] : null,
                 'birth_date' => (isset($request->birth_date)) ?  Carbon::parse($request->birth_date)->toDateTimeString() : null,
                 'name_ref' => (isset($request->name_ref)) ? $request->name_ref : null,
                 'phone_ref' => (isset($request->phone_ref)) ? $request->phone_ref : null,
                 'relationship_ref' => (isset($request->relationship_ref)) ? $request->relationship_ref : null,
-                'responable_user_id' => $responsable->id,
+                'responable_user_id' => empty($responsable) ? null : $responsable['id'],
                 'remember_token' => Str::random(10),
                 'password' => Hash::make($request->document)
                 // 'pension_user_id' => $request->sex['id'],name_ref
-            ]);
+            ])->assignRole($request->newRol);
+
+
+
+
+
 
 
             DB::commit();
@@ -105,7 +111,10 @@ class UserController extends FatherController
                 'eps' => Eps::all(),
                 'neighborhood' => Neighborhood::all(),
                 'sex' => Sex::all(),
-                'documentType' => DocumentType::all()
+                'documentType' => DocumentType::all(),
+                'responsables' => User::with(['roles', 'document_type'])->whereHas('roles', function ($q) {
+                    $q->whereName('RESPONSABLE');
+                })->get()
             ],
             true,
             []
@@ -117,7 +126,12 @@ class UserController extends FatherController
 
     public function getUsersAll()
     {
-        $users = User::where('responable_user_id', '!=', null)->with(['permissions', 'roles', 'responsable'])->get();
+        $users = User::with(['permissions', 'roles', 'responsable'])->whereHas('roles', function ($q) {
+            $q->whereName('STUDENT');
+        })->get();
+
+
+
         return  $this->responseApp($users, true, ['type' => 'success', 'content' => 'Registros consultados con éxito.']);
     }
 }

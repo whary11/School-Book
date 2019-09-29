@@ -90,7 +90,7 @@
                   <div class="row">
                     <div class="form-group col-md-6">
                       <v-select
-                        v-model="user.documentType"
+                        v-model="user.document_type"
                         :options="optionComplements.documentType"
                         label="name"
                         placeholder="Tipo de documento"
@@ -340,7 +340,7 @@
                     </div>
                     <div class="form-group col-md-6">
                       <v-select
-                        v-model="user.responsable.documentType"
+                        v-model="user.responsable.document_type"
                         :options="optionComplements.documentType"
                         label="name"
                         placeholder="Tipo de documento (Requerido)"
@@ -448,8 +448,8 @@
                       <label for="responsible">Selecciona un acudiente</label>
                       <v-select
                         v-model="user.responsable"
-                        :options="[{name:'Cedula'}]"
-                        label="name"
+                        :options="optionComplements.responsables"
+                        label="names"
                         id="responsible"
                         placeholder="Selecciona un acudiente"
                       >
@@ -467,6 +467,10 @@
               </div>
             </div>
           </div>
+
+          <pre>
+            {{user.responsable}}
+          </pre>
 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -490,14 +494,12 @@ export default {
       default: {
         columns: ["names", "surnames", "email", "Editar"],
         rows: []
-      }
+      },
+      required: true
     },
     config: {
       type: Object,
-      default: {
-        scope: "usuario",
-        rol: "student"
-      }
+      required: true
     }
   },
   data() {
@@ -509,7 +511,7 @@ export default {
       },
       newResposable: false,
       objectValidateUser: [
-        "documentType",
+        "document_type",
         "document",
         "names",
         "email",
@@ -519,7 +521,7 @@ export default {
         "phone1"
       ],
       objectValidateResponsable: [
-        "documentType",
+        "document_type",
         "document",
         "names",
         "email",

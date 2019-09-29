@@ -18,7 +18,7 @@ export default {
       },
       config: {
         scope: "estudiante",
-        rol: "student"
+        rol: "STUDENT"
       }
     };
   },

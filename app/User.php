@@ -64,7 +64,7 @@ class User extends Authenticatable
         return $this->belongsTo(Arl::class, 'arl_user_id');
     }
 
-    public function bloodGroup()
+    public function blood_group()
     {
         return $this->belongsTo(BloodGroup::class, 'blood_group_id');
     }
@@ -92,5 +92,10 @@ class User extends Authenticatable
     public function responsable()
     {
         return $this->belongsTo(User::class, 'responable_user_id');
+    }
+
+    public function document_type()
+    {
+        return $this->belongsTo(DocumentType::class, 'document_type_user_id');
     }
 }
