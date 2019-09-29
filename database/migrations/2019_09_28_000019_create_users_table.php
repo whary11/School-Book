@@ -35,7 +35,7 @@ class CreateUsersTable extends Migration
             $table->unsignedInteger('blood_group_id')->nullable()->comment('Grupo sanguíneo');
             $table->unsignedInteger('document_type_user_id')->nullable();
             $table->date('birth_date')->nullable();
-            $table->string('userscol', 45)->nullable();
+            $table->string('document', 45);
             $table->unsignedInteger('responable_user_id')->nullable();
             $table->string('name_ref', 100)->nullable()->comment('Nombre de la persona en caso de emergencia.');
             $table->string('phone_ref', 100)->nullable()->comment('Telefono de la persona en caso de emergencia.');
@@ -62,6 +62,10 @@ class CreateUsersTable extends Migration
             $table->index(["arl_user_id"], 'arl_user_id_idx');
 
             $table->index(["pension_user_id"], 'pension_user_id_idx');
+
+            $table->unique(["document"], 'document_UNIQUE');
+
+            $table->unique(["id"], 'id_UNIQUE');
 
             $table->unique(["email"], 'email_UNIQUE');
             $table->timestamps();

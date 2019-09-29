@@ -52,7 +52,7 @@ class UserController extends FatherController
             }
             //crear estudiante
 
-            // return $request->document_type['id'];
+            // return $responsable['id'];
             User::create([
                 'document_type_user_id' => $request->document_type['id'],
                 'document' => $request->document,

@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
         factory(Sex::class, 30)->create();
 
         $luis = User::create([
+            'document' => 1077444356,
             'names' => 'Luis Fernando',
             'surnames' => 'Raga',
             'email' => 'whary11@gmail.com',
@@ -44,6 +45,7 @@ class DatabaseSeeder extends Seeder
 
 
         $david = User::create([
+            'document' => 2738456,
             'names' => 'David',
             'surnames' => 'Raga Renteria',
             'email' => 'dragarenteria@gmail.com',
