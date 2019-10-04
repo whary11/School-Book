@@ -24,11 +24,13 @@
           <button
             slot="Editar"
             slot-scope="props"
-            class="btn btn-primary"
+            class="btn btn-dark"
             data-toggle="modal"
             data-target="#roles"
             @click="showModlaRoles(props.row)"
-          >Editar</button>
+          >
+            <i class="far fa-edit"></i>
+          </button>
         </v-client-table>
       </div>
     </div>
@@ -47,7 +49,7 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Nuevo usuario</h5>
+            <h5 class="modal-title">Nuevo {{config.scope}}</h5>
           </div>
           <div class="modal-body row justify-content-center">
             <div class="col-md-12">
@@ -68,7 +70,8 @@
                     role="tab"
                     aria-controls="home"
                   >
-                    <i class="far fa-address-card"></i> Información básica
+                    <i class="far fa-address-card"></i>
+                    Información básica del {{config.scope}}
                     <!-- <span class="badge badge-success">New</span> -->
                   </a>
                 </li>
@@ -468,9 +471,9 @@
             </div>
           </div>
 
-          <pre>
+          <!-- <pre>
             {{user.responsable}}
-          </pre>
+          </pre>-->
 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -633,15 +636,10 @@ export default {
   }
 };
 </script>
-
-
-
-
 <style>
 .vdatetime {
   width: 89% !important;
 }
-
 .vs__search {
   color: #5c6873;
 }

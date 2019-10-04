@@ -19,6 +19,13 @@ import {
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css';
 import Message from 'vue-m-message'
+import VueMoment from 'vue-moment'
+import moment from 'moment-timezone'
+require('moment/locale/es')
+
+//Filtros
+import age from './admin/filters/age'
+
 
 
 
@@ -38,6 +45,10 @@ Vue.use(VueRouter)
 Vue.use(ClientTable);
 Vue.use(Message)
 Vue.use(VueSweetalert2);
+Vue.use(VueMoment, {
+    moment
+});
+Vue.use(age)
 
 /**
  * The following block of code may be used to automatically register your

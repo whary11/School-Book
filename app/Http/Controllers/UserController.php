@@ -28,14 +28,13 @@ class UserController extends FatherController
 
     public function saveUser(Request $request)
     {
+        // return $request->responsable['email'];
         $success = false;
         DB::beginTransaction();
         try {
             $responsable =  $request->responsable;
-
-
             // return  json_encode(empty($responsable));
-            if (empty($responsable) && !isset($responsable->created_at)) {
+            if (isset($responsable['email']) && !isset($responsable['created_at'])) {
                 //crear acudiente
                 $responsable = User::create([
                     'document_type_user_id' => $responsable['document_type']['id'],
@@ -51,8 +50,6 @@ class UserController extends FatherController
                 ])->assignRole('RESPONSABLE');
             }
             //crear estudiante
-
-            // return $responsable['id'];
             User::create([
                 'document_type_user_id' => $request->document_type['id'],
                 'document' => $request->document,
@@ -77,12 +74,6 @@ class UserController extends FatherController
                 // 'pension_user_id' => $request->sex['id'],name_ref
             ])->assignRole($request->newRol);
 
-
-
-
-
-
-
             DB::commit();
             $success = true;
         } catch (\Throwable $th) {
@@ -90,9 +81,6 @@ class UserController extends FatherController
             $error = $th->getMessage();
             DB::rollBack();
         }
-
-
-
 
         if ($success) {
             return $this->responseApp([], $success, []);
@@ -129,8 +117,6 @@ class UserController extends FatherController
         $users = User::with(['permissions', 'roles', 'responsable'])->whereHas('roles', function ($q) {
             $q->whereName('STUDENT');
         })->get();
-
-
 
         return  $this->responseApp($users, true, ['type' => 'success', 'content' => 'Registros consultados con éxito.']);
     }

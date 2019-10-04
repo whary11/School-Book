@@ -96,9 +96,11 @@
             <div class="dropdown-header text-center">
               <strong>Configuraciones</strong>
             </div>
-            <a class="dropdown-item" href="#">
+
+            <router-link tag="a" to="/gateway/perfil" class="dropdown-item">
               <i class="fa fa-user"></i> Perfil
-            </a>
+            </router-link>
+
             <a class="dropdown-item" href="#">
               <i class="fa fa-wrench"></i> Settings
             </a>
