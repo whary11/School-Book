@@ -1,6 +1,9 @@
 <?php
 
 use App\Arl;
+use App\SchoolHeadquarterUser;
+use App\SchoolHeadquarter;
+use App\Institution;
 use App\Neighborhood;
 use App\Compensation;
 use App\BloodGroup;
@@ -23,6 +26,8 @@ class DatabaseSeeder extends Seeder
     {
         // $this->call(UsersTableSeeder::class);
 
+        factory(Institution::class, 2)->create();
+        factory(SchoolHeadquarter::class, 10)->create();
         factory(DocumentType::class, 30)->create();
         factory(Arl::class, 30)->create();
         factory(BloodGroup::class, 30)->create();
@@ -42,6 +47,11 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
 
+        SchoolHeadquarterUser::create([
+            'school_headquarter_user_id' => $luis->id,
+            'school_headquarter_id' => \App\SchoolHeadquarter::all()->random()->id,
+        ]);
+
 
 
         $david = User::create([
@@ -52,6 +62,11 @@ class DatabaseSeeder extends Seeder
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
             'remember_token' => Str::random(10),
             'email_verified_at' => now(),
+        ]);
+
+        SchoolHeadquarterUser::create([
+            'school_headquarter_user_id' => $david->id,
+            'school_headquarter_id' => \App\SchoolHeadquarter::all()->random()->id,
         ]);
 
         Role::create([

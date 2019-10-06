@@ -1,5 +1,7 @@
 <template>
   <div>
+    <!-- <chat></chat> -->
+
     <header class="app-header navbar" v-show="auth">
       <button
         class="navbar-toggler sidebar-toggler d-lg-none mr-auto"
@@ -606,7 +608,12 @@
 
 <script>
 import { mapState, mapActions, mapMutations } from "vuex";
+
+import Chat from "../components/Chat/Chat";
 export default {
+  components: {
+    Chat
+  },
   data() {
     return {};
   },

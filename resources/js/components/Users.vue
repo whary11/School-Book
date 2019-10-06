@@ -2,35 +2,70 @@
   <div>
     <div class="card">
       <div class="card-header">
-        <h5 class="text-center">
-          <a
-            href="#"
-            class="btn btn-primary"
-            data-toggle="modal"
-            data-target="#modal_user"
-          >Nuevo {{config.scope}}</a>
-        </h5>
+        <div class="row justify-content-center">
+          <h5 class="text-center btn-group">
+            <label
+              href="#"
+              class="btn btn-primary"
+              data-toggle="modal"
+              data-target="#modal_user"
+              @click="user = {
+                responsable: ''
+              }"
+              style="cursor:pointer"
+            >Nuevo {{config.scope}}</label>
+            <span class="input-group-append div_import">
+              <input
+                type="file"
+                @change="validaPlano"
+                name="archivo"
+                id="archivo"
+                style="display:none"
+              />
+              <label for="archivo" class="btn btn-success" style="cursor:pointer">
+                <i class="fas fa-upload"></i>
+                Cargar {{config.scope}}s
+              </label>
+            </span>
+          </h5>
+        </div>
       </div>
       <div class="card-body">
         <v-client-table
           :pagination="{edge:true}"
-          :data="table.rows"
+          :data="rows"
           :columns="table.columns"
           :options="{
-        texts,headings,perPage,collapseGroups
+        texts,headings,perPage,collapseGroups,pagination
         }"
           class="table-sm"
         >
-          <button
-            slot="Editar"
-            slot-scope="props"
-            class="btn btn-dark"
-            data-toggle="modal"
-            data-target="#roles"
-            @click="showModlaRoles(props.row)"
-          >
-            <i class="far fa-edit"></i>
-          </button>
+          <span slot="is_active" slot-scope="props">
+            <span v-if="props.row.is_active ==1" class="badge badge-success">Activo</span>
+            <span v-else class="badge badge-danger">Inactivo</span>
+          </span>
+
+          <div slot="Acciones" slot-scope="props" class="btn-group">
+            <button
+              class="btn btn-dark"
+              data-toggle="modal"
+              data-target="#modal_user"
+              @click="user = props.row"
+            >
+              <i class="far fa-edit"></i>
+            </button>
+
+            <button
+              class="btn btn-danger"
+              v-if="props.row.is_active == 1"
+              @click.prevent="changeState(props.row.id,0)"
+            >
+              <i class="fas fa-lock"></i>
+            </button>
+            <button class="btn btn-success" v-else @click.prevent="changeState(props.row.id,1)">
+              <i class="fas fa-lock-open"></i>
+            </button>
+          </div>
         </v-client-table>
       </div>
     </div>
@@ -47,9 +82,12 @@
       @submit.prevent="setUser"
     >
       <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
+        <div class="modal-content" ref="modal_user">
           <div class="modal-header">
-            <h5 class="modal-title">Nuevo {{config.scope}}</h5>
+            <h5 class="modal-title">
+              <span v-if="user.created_at">Editar {{config.scope}}</span>
+              <span v-else>Nuevo {{config.scope}}</span>
+            </h5>
           </div>
           <div class="modal-body row justify-content-center">
             <div class="col-md-12">
@@ -75,7 +113,7 @@
                     <!-- <span class="badge badge-success">New</span> -->
                   </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" v-if="config.rol == 'STUDENT'">
                   <a
                     class="nav-link"
                     data-toggle="tab"
@@ -177,6 +215,7 @@
                         input-style="width:100%"
                         placeholder="Fecha de nacimiento"
                         value-zone="America/Bogota"
+                        :auto="true"
                       ></datetime>
                     </div>
 
@@ -332,8 +371,8 @@
                   </div>
                 </div>
                 <!-- Tab para los datos del acudiaente -->
-                <div class="tab-pane" id="profile4" role="tabpanel">
-                  <div class="row" v-if="newResposable">
+                <div class="tab-pane" id="profile4" role="tabpanel" v-if="config.rol == 'STUDENT'">
+                  <div class="row" v-if="newResposable ">
                     <div class="form-group col-md-12">
                       <a
                         href="#"
@@ -477,7 +516,18 @@
 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary" :disabled="validation">Guardar cambios</button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              :disabled="validation"
+              v-if="user.created_at"
+            >Editar</button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              :disabled="validation"
+              v-else
+            >Guardar cambios</button>
           </div>
         </div>
       </div>
@@ -489,15 +539,12 @@
 
 <script>
 import { mapMutations } from "vuex";
+import { log } from "util";
 
 export default {
   props: {
     table: {
       type: Object,
-      default: {
-        columns: ["names", "surnames", "email", "Editar"],
-        rows: []
-      },
       required: true
     },
     config: {
@@ -507,6 +554,7 @@ export default {
   },
   data() {
     return {
+      rows: [],
       showAlert: 0,
       optionComplements: [],
       user: {
@@ -533,13 +581,16 @@ export default {
 
       role: {},
       headings: {
+        document: "Identificacion",
         names: "Nombre",
         surnames: "Apellidos",
         email: "Email",
-        3: "Editar"
+        is_active: "Estado"
       },
+      pagination: { nav: "scroll", chunk: 6 },
+
       collapseGroups: true,
-      perPage: 5,
+      perPage: 20,
       texts: {
         count:
           "Montrando del {from} al {to} de {count} Registros|{count} Registros|1 rol",
@@ -559,17 +610,47 @@ export default {
   },
   mounted() {
     this.getComplements();
+    this.getUsersAll();
   },
   methods: {
     ...mapMutations([""]),
+
+    getUsersAll() {
+      let loader = this.$loading.show({
+        loader: "spinner"
+      });
+      axios
+        .get(`/api/user/getUsersAll/${this.config.rol}`)
+        .then(res => {
+          loader.hide();
+          this.rows = res.data.data;
+        })
+        .catch(function(error) {
+          loader.hide();
+        });
+    },
     setUser() {
       if (this.showAlert == 0) {
+        let loader = this.$loading.show({
+          loader: "spinner",
+          container: this.$refs.modal_user
+        });
+        let url = this.config.urlSave;
+        if (this.user.created_at) {
+          url = this.config.urlEdit;
+        }
+
         this.user.birth_date ? new Date(this.user.birth_date) : null;
         this.user.newRol = this.config.rol;
+
         axios
-          .post("/api/user/saveUser", this.user)
+          .post(url, this.user)
           .then(res => {
+            loader.hide();
             if (res.data.transaction.status) {
+              this.rows = res.data.data;
+              this.getComplements();
+              this.newResposable = false;
               $("#modal_user").modal("hide");
               this.$message({
                 supportHTML: true,
@@ -585,7 +666,25 @@ export default {
             } else {
             }
           })
-          .catch(error => {});
+          .catch(error => {
+            loader.hide();
+
+            console.log(error.response.data.errors);
+
+            if (error.response.data.errors.document) {
+              this.$swal({
+                text: "El documento ya exite.",
+                type: "error"
+              });
+            } else if (error.response.data.errors.email) {
+              this.$swal({
+                text: "El email ya exite.",
+                type: "error"
+              });
+            }
+
+            // data.responseJSON.errors.identificacion
+          });
       }
     },
 
@@ -596,6 +695,84 @@ export default {
           this.optionComplements = res.data.data;
         })
         .catch(function(error) {});
+    },
+
+    changeState(user_id, newState) {
+      let loader = this.$loading.show({
+        loader: "spinner"
+      });
+      axios
+        .get(`/api/user/changeState/${user_id}/${newState}/${this.config.rol}`)
+        .then(res => {
+          loader.hide();
+          console.log(res);
+          if (res.data.transaction.status) {
+            this.rows = res.data.data;
+          }
+        })
+        .catch(function(error) {
+          loader.hide();
+        });
+    },
+
+    validaPlano(e) {
+      let archvio = e.target.files[0];
+      let extension = archvio.name.split(".");
+      extension = extension[extension.length - 1];
+
+      if (extension == "xls" || extension == "xlsx") {
+        this.$swal({
+          title: "Cargar plano",
+          text: `¿Estas seguro(a) de subir el plano '${archvio.name}'?`,
+          icon: "warning",
+          buttons: [true, "Continuar"],
+          dangerMode: true
+        }).then(willDelete => {
+          if (willDelete) {
+            let loader = this.$loading.show({
+              loader: "spinner"
+            });
+            let formData = new FormData();
+            formData.append("file", $("#archivo")[0].files[0]);
+            formData.append("rol", this.config.rol);
+
+            axios
+              .post("/api/user/importUsers", formData)
+              .then(resp => {
+                loader.hide();
+                if (resp.data.transaction.status) {
+                  this.$swal({
+                    text: `Usuarios registrados correctamente`,
+                    type: "success"
+                  });
+                  this.rows = resp.data.data;
+                } else {
+                  this.$swal({
+                    title: "Ups!",
+                    text: "No se pudieron registrar los usuarios",
+                    type: "error"
+                  });
+                }
+              })
+              .catch(error => {
+                loader.hide();
+              });
+          } else {
+            swal({
+              title: "",
+              text: `Haz cancelado la acción`,
+              icon: "warning"
+            });
+          }
+          $("#archivo").val("");
+        });
+      } else {
+        swal({
+          title: "",
+          text: `El archivo con extensión "${extension}" no es permitido`,
+          icon: "error"
+        });
+      }
     }
   },
   computed: {
@@ -613,15 +790,20 @@ export default {
           });
         }
       }
-      for (const key in this.user.responsable) {
-        if (this.user.responsable.hasOwnProperty(key)) {
-          this.objectValidateResponsable.map(o => {
-            if (o == key && this.user.responsable[key] != "") {
-              count++;
-              this.showAlert--;
-            }
-          });
+
+      if (this.config.rol == "STUDENT") {
+        for (const key in this.user.responsable) {
+          if (this.user.responsable.hasOwnProperty(key)) {
+            this.objectValidateResponsable.map(o => {
+              if (o == key && this.user.responsable[key] != "") {
+                count++;
+                this.showAlert--;
+              }
+            });
+          }
         }
+      } else {
+        this.objectValidateResponsable = [];
       }
 
       if (

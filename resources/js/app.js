@@ -25,6 +25,12 @@ require('moment/locale/es')
 
 //Filtros
 import age from './admin/filters/age'
+import Vue from 'vue';
+// Import component
+import Loading from 'vue-loading-overlay';
+// Import stylesheet
+import 'vue-loading-overlay/dist/vue-loading.css';
+// Init plugin
 
 
 
@@ -49,6 +55,9 @@ Vue.use(VueMoment, {
     moment
 });
 Vue.use(age)
+Vue.use(Loading, {
+    color: "red"
+});
 
 /**
  * The following block of code may be used to automatically register your

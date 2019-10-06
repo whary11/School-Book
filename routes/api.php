@@ -44,6 +44,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'user'], function () {
         Route::get('/getComplements', 'UserController@getComplements');
         Route::post('/saveUser', 'UserController@saveUser');
-        Route::get('/getUsersAll', 'UserController@getUsersAll');
+        Route::get('/getUsersAll/{rol}', 'UserController@getUsersAll');
+        Route::post('/editUser', 'UserController@editUsers');
+        Route::post('/importUsers', 'UserController@importUsers');
+        Route::get('/changeState/{user_id}/{newState}/{rol}', 'UserController@changeState');
     });
 });

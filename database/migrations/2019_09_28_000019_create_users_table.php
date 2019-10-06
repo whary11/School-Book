@@ -44,6 +44,8 @@ class CreateUsersTable extends Migration
             $table->string('phone2', 45)->nullable();
             $table->string('surnames', 200)->nullable();
             $table->longText('firm')->nullable();
+            $table->string('address', 100)->nullable();
+            $table->integer('is_active')->default('1')->comment('1 activo o 0 inactivo ');
 
             $table->index(["sexe_user_id"], 'sexe_user_id_idx');
 

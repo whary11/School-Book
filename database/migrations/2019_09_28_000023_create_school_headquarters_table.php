@@ -21,7 +21,7 @@ class CreateSchoolHeadquartersTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('code', 45)->comment('A, B, C…..');
-            $table->unsignedInteger('intititution_id');
+            $table->unsignedInteger('institution_id');
             $table->string('address', 100)->nullable();
             $table->string('email', 45)->nullable();
             $table->string('phone1', 45)->nullable();
@@ -29,14 +29,14 @@ class CreateSchoolHeadquartersTable extends Migration
             $table->string('email1', 45)->nullable();
             $table->string('email2', 45)->nullable();
 
-            $table->index(["intititution_id"], 'intititution_id_idx');
+            $table->index(["institution_id"], 'school_headquarters_institution_id_idx');
 
             $table->unique(["id"], 'id_UNIQUE');
             $table->timestamps();
 
 
-            $table->foreign('intititution_id', 'intititution_id_idx')
-                ->references('id')->on('intitutions')
+            $table->foreign('institution_id', 'school_headquarters_institution_id_idx')
+                ->references('id')->on('institutions')
                 ->onDelete('no action')
                 ->onUpdate('no action');
         });

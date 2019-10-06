@@ -13,22 +13,23 @@ export default {
   data() {
     return {
       table: {
-        columns: ["names", "surnames", "email", "Editar"],
-        rows: []
+        columns: [
+          "document",
+          "names",
+          "surnames",
+          "email",
+          "is_active",
+          "Acciones"
+        ]
       },
       config: {
         scope: "estudiante",
-        rol: "STUDENT"
+        rol: "STUDENT",
+        urlSave: "/api/user/saveUser",
+        urlEdit: `/api/user/editUser`
       }
     };
   },
-  mounted() {
-    axios
-      .get("/api/user/getUsersAll")
-      .then(res => {
-        this.table.rows = res.data.data;
-      })
-      .catch(function(error) {});
-  }
+  mounted() {}
 };
 </script>
