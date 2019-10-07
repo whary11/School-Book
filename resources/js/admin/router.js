@@ -167,5 +167,5 @@ function can(permission) {
     }
 }
 
-console.log(can('students create'))
+// console.log(can('students create'))
 export default router;

@@ -14,7 +14,7 @@
               }"
               style="cursor:pointer"
             >Nuevo {{config.scope}}</label>
-            <span class="input-group-append div_import">
+            <span class="input-group-append div_import" v-permissions="['export_students']">
               <input
                 type="file"
                 @change="validaPlano"
@@ -30,6 +30,9 @@
           </h5>
         </div>
       </div>
+
+      <div id="algo" v-permissions="['create_students', 'algo', 'create_estudents']">no mas, borrate</div>
+
       <div class="card-body">
         <v-client-table
           :pagination="{edge:true}"
@@ -47,7 +50,7 @@
 
           <div slot="Acciones" slot-scope="props" class="btn-group">
             <button
-              class="btn btn-dark"
+              class="btn btn-dark btn-sm"
               data-toggle="modal"
               data-target="#modal_user"
               @click="user = props.row"
@@ -56,13 +59,17 @@
             </button>
 
             <button
-              class="btn btn-danger"
+              class="btn btn-danger btn-sm"
               v-if="props.row.is_active == 1"
               @click.prevent="changeState(props.row.id,0)"
             >
               <i class="fas fa-lock"></i>
             </button>
-            <button class="btn btn-success" v-else @click.prevent="changeState(props.row.id,1)">
+            <button
+              class="btn btn-success btn-sm"
+              v-else
+              @click.prevent="changeState(props.row.id,1)"
+            >
               <i class="fas fa-lock-open"></i>
             </button>
           </div>

@@ -32,6 +32,40 @@ import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 // Init plugin
 
+import VueScrollTo from 'vue-scrollto'
+
+
+//Directivas personalizadas 
+//Permmisions
+
+import Permissions from './admin/directives/permissions'
+
+// var VueScrollTo = require('vue-scrollto');
+
+Vue.use(VueScrollTo, {
+    container: "body",
+    duration: 500,
+    easing: "ease",
+    offset: 0,
+    force: true,
+    cancelable: true,
+    onStart: false,
+    onDone: false,
+    onCancel: false,
+    x: false,
+    y: true
+})
+
+// Register a global custom directive called `v-focus`
+// Vue.directive('permmisions', {
+//     inserted: function (el, d, vnode) {
+
+
+//         el.remove()
+//     }
+// })
+
+
 
 
 
@@ -55,6 +89,7 @@ Vue.use(VueMoment, {
     moment
 });
 Vue.use(age)
+Vue.use(Permissions)
 Vue.use(Loading, {
     color: "red"
 });

@@ -1,32 +1,38 @@
 <template>
   <div>
-    <div id="chat" v-if="show_notification">
-      <ul class="list-group" id="chat-container">
+    <div id="chat" v-if="show_notification" ref="scroll_notification">
+      <ul class="list-group shadow-lg" id="chat-container">
         <li class="list-group-item active text-center">
           <i class="fas fa-people-carry"></i> Sopoerte
         </li>
         <div id="messages">
           <!-- Mensaje entrante -->
-          <div class="text-black outgoing">
-            <span class="message">Mensaje entrante</span>
-            <img
-              class="avatar"
-              src="https://pluralsight.imgix.net/paths/path-icons/nodejs-601628d09d.png"
-            />
-          </div>
 
-          <!-- Mensaje saliente -->
-          <div class="text-black text-right">
-            <span class="message text-right">Mensaje saliente</span>
-            <img
-              class="avatar"
-              src="https://pluralsight.imgix.net/paths/path-icons/nodejs-601628d09d.png"
-            />
-          </div>
+          <span v-for="(item, index) in this.messages" :key="index">
+            <div class="text-black text-left" v-if="item.position==1">
+              <img class="avatar" :src="item.avatar" />
+              <span class="message">{{item.message}}</span>
+            </div>
+
+            <!-- Mensaje saliente -->
+            <div class="text-black text-right" v-else>
+              <span class="message text-right">{{item.message}}</span>
+              <img class="avatar" :src="item.avatar" />
+            </div>
+          </span>
+
+          <div id="init" ref="init"></div>
         </div>
 
         <li style="list-style:none">
-          <input type="text" class="form-control" placeholder="Mensaje" autofocus />
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Mensaje"
+            autofocus
+            v-model="message_input"
+            @keypress.enter="sendMessage()"
+          />
         </li>
       </ul>
     </div>
@@ -35,7 +41,7 @@
       <button type="button" class="btn btn-primary btn-carrito" @click="showNotification()">
         <span>
           <i data-placement="top" class="fas fa-comment-dots mt-2 align-middle"></i>
-          <span class="badge badge-danger span-carrito">4</span>
+          <span class="badge badge-danger span-carrito">{{messages.length}}</span>
         </span>
       </button>
     </div>
@@ -50,14 +56,40 @@ export default {
   data() {
     return {
       show_notification: true,
+      message_input: "",
       messages: [
         {
-          message: "Mesajes entrantes"
+          avatar:
+            "https://pluralsight.imgix.net/paths/path-icons/nodejs-601628d09d.png",
+          message: "Mesajes entrantes",
+          position: 1
         }
       ]
     };
   },
   methods: {
+    sendMessage() {
+      this.messages.push({
+        message: this.message_input,
+        avatar:
+          "https://pluralsight.imgix.net/paths/path-icons/nodejs-601628d09d.png",
+        position: 2
+      });
+
+      // this.$scrollTo(this.$refs.init, 2000, {
+      //   el: "#init"
+      // });
+      // $("#chat").animate(
+      //   {
+      //     scrollTop: $("#chat").prop("scrollHeight")
+      //   },
+      //   3
+      // );
+
+      // this.$refs.scroll_notification.scrollTop = 10000;
+
+      // this.message_input = "";
+    },
     showNotification() {
       this.show_notification = !this.show_notification;
     }
@@ -72,7 +104,8 @@ export default {
   bottom: 10%;
   right: 10%;
   z-index: 40000;
-  max-width: 400px;
+  max-width: 200px;
+  width: 200px;
 }
 #scroll-notification {
   max-height: 70vh;
