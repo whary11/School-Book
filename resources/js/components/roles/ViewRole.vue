@@ -74,12 +74,12 @@
 
 <script>
 export default {
-  props: ["role"],
+  props: ["role", "permissions"],
   data() {
     return {
       btn_disable: false,
       checked: false,
-      permissions: [],
+      // permissions: [],
       url: false,
 
       role_error: {
@@ -94,18 +94,8 @@ export default {
   },
   mounted() {
     this.getUrl;
-    this.getPermissions();
   },
   methods: {
-    getPermissions() {
-      axios
-        .get("/api/role/allPermissions")
-        .then(resp => {
-          this.permissions = resp.data.data;
-        })
-        .catch(function(error) {});
-    },
-
     saveRole() {
       if (!this.role.permissions || this.role.permissions.length == 0) {
         this.$swal({

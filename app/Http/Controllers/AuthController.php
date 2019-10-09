@@ -54,7 +54,7 @@ class AuthController extends FatherController
         return response()->json([
             'access_token' => $tokenResult->accessToken,
             'token_type'   => 'Bearer',
-            'user'  => User::where('id', $user->id)->with(['permissions'])->first(),
+            'user'  => User::where('id', $user->id)->with(['permissions', 'roles.permissions'])->first(),
             'expires_at'   => Carbon::parse(
                 $tokenResult->token->expires_at
             )

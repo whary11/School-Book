@@ -1,12 +1,23 @@
 <template>
   <div class="card" v-if="rolesTable.rows.length >0">
     <div class="card-header">
-      <div class="row Justify-content-center">
-        <h4 class="text-center">
-          <!-- <div class="btn-group" role="group" aria-label="Basic example"> -->
-          <button class="btn btn-sm btn-primary" @click="showModlaRoles()">Crear</button>
-          <!-- </div> -->
-        </h4>
+      <div class="btn-toolbar justify-content-center">
+        <div class="btn-group" role="group">
+          <label class="btn btn-primary" style="cursor:pointer" @click="showModlaRoles()">Crear</label>
+          <span class="input-group-append div_import">
+            <input
+              type="file"
+              @change="filePermissions"
+              name="archivo"
+              id="archivo"
+              style="display:none"
+            />
+            <label for="archivo" class="btn btn-success" style="cursor:pointer">
+              <i class="fas fa-upload"></i>
+              Cargar Permisos
+            </label>
+          </span>
+        </div>
       </div>
     </div>
     <div class="card-body" v-if="rolesTable.rows.length >0">
@@ -19,6 +30,13 @@
         }"
         class="table-sm"
       >
+        <template slot="Permisos" slot-scope="props">
+          <span
+            class="badge badge-dark m-1"
+            v-for="(item, index) in props.row.permissions"
+            :key="index"
+          >{{item.display_name}}</span>
+        </template>
         <button
           slot="Editar"
           slot-scope="props"
@@ -30,7 +48,7 @@
       </v-client-table>
     </div>
 
-    <view-role :role="role" @updateRoles="updateRoles"></view-role>
+    <view-role :role="role" @updateRoles="updateRoles" :permissions="permissions"></view-role>
   </div>
 </template>
 <script>
@@ -41,8 +59,9 @@ export default {
   },
   data() {
     return {
+      permissions: [],
       rolesTable: {
-        columns: ["name", "created_at", "updated_at", "Editar"],
+        columns: ["name", "description", "Permisos", "Editar"],
         rows: []
       },
       role: {},
@@ -73,8 +92,61 @@ export default {
   },
   mounted() {
     this.getRoles();
+    this.getPermissions();
   },
   methods: {
+    getPermissions() {
+      axios
+        .get("/api/role/allPermissions")
+        .then(resp => {
+          this.permissions = resp.data.data;
+        })
+        .catch(function(error) {});
+    },
+    filePermissions(e) {
+      let archvio = e.target.files[0];
+      let extension = archvio.name.split(".")[
+        archvio.name.split(".").length - 1
+      ];
+
+      if (extension == "xls" || extension == "xlsx") {
+        this.$swal({
+          title: "Cargar Excel",
+          text: `¿Estás seguro(a) de subir el documento '${archvio.name}'?`,
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Continuar",
+          cancelButtonText: "Cancelar"
+        }).then(resp => {
+          if (resp.value) {
+            let loader = this.$loading.show({
+              loader: "spinner"
+            });
+            let formData = new FormData();
+            formData.append("file", $("#archivo")[0].files[0]);
+            axios
+              .post("/api/role/permissions/import", formData)
+              .then(res => {
+                loader.hide();
+                if (res.data.transaction.status) {
+                  loader.hide();
+                  this.$swal({
+                    text: `Permisos registrados correctamente.`,
+                    type: "success"
+                  });
+                  this.permissions = res.data.data;
+                } else {
+                  alert("Tenemos un par de errores.");
+                }
+              })
+              .catch(error => {
+                loader.hide();
+                alert("Tenemos un par de errores.");
+              });
+          }
+        });
+      }
+    },
     getRoles() {
       axios
         .get("/api/role/allRoles")
@@ -98,6 +170,17 @@ export default {
       this.rolesTable.rows = data;
     }
   },
-  computed: {}
+  computed: {
+    showPermissions() {}
+  }
 };
 </script>
+
+
+
+<style>
+.vs__dropdown-toggle {
+  max-height: 1000px !important;
+  height: auto !important;
+}
+</style>

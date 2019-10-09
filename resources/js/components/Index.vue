@@ -618,7 +618,9 @@ export default {
     return {};
   },
   mounted() {
-    this.getUser();
+    if (JSON.parse(localStorage.getItem("auth"))) {
+      this.getUser();
+    }
   },
   methods: {
     ...mapActions(["rediretNoAuth", "getUser"]),

@@ -84,7 +84,10 @@ window.Vue = require('vue');
 Vue.use(VueRouter)
 Vue.use(ClientTable);
 Vue.use(Message)
-Vue.use(VueSweetalert2);
+Vue.use(VueSweetalert2, {
+    confirmButtonColor: '#41b882',
+    cancelButtonColor: '#ff7674'
+});
 Vue.use(VueMoment, {
     moment
 });

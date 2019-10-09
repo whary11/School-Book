@@ -13,8 +13,15 @@ const routes = [{
         path: '/gateway',
         name: 'dashboard',
         component: Dashboard,
-
-
+        beforeEnter: (to, from, next) => {
+            if (JSON.parse(localStorage.getItem('auth'))) {
+                next(true)
+            } else {
+                next({
+                    path: '/gateway/login'
+                })
+            }
+        }
     },
     {
         path: '/gateway/login',
@@ -27,7 +34,6 @@ const routes = [{
                     path: '/gateway'
                 })
             } else {
-                console.log('Ir a login');
                 next(true)
             }
         }

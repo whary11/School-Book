@@ -3,7 +3,7 @@
     <div class="card">
       <div class="card-header">
         <div class="row justify-content-center">
-          <h5 class="text-center btn-group">
+          <div class="text-center btn-group">
             <label
               href="#"
               class="btn btn-primary"
@@ -14,7 +14,7 @@
               }"
               style="cursor:pointer"
             >Nuevo {{config.scope}}</label>
-            <span class="input-group-append div_import" v-permissions="['export_students']">
+            <span class="input-group-append div_import" v-permissions="['import students']">
               <input
                 type="file"
                 @change="validaPlano"
@@ -27,11 +27,11 @@
                 Cargar {{config.scope}}s
               </label>
             </span>
-          </h5>
+          </div>
         </div>
       </div>
 
-      <div id="algo" v-permissions="['create_students', 'algo', 'create_estudents']">no mas, borrate</div>
+      <div id="algo" v-permissions="['import students']">no mas, borrate</div>
 
       <div class="card-body">
         <v-client-table
@@ -729,8 +729,8 @@ export default {
 
       if (extension == "xls" || extension == "xlsx") {
         this.$swal({
-          title: "Cargar plano",
-          text: `¿Estas seguro(a) de subir el plano '${archvio.name}'?`,
+          title: "Cargar Excel",
+          text: `¿Estás seguro(a) de subir el documento '${archvio.name}'?`,
           icon: "warning",
           buttons: [true, "Continuar"],
           dangerMode: true

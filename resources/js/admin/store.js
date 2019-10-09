@@ -38,6 +38,12 @@ const stores = new Vuex.Store({
             axios
                 .get("/api/auth/getUser")
                 .then(res => {
+                    if (!res.data.transaction.status && res.data.message.type == 'token') {
+                        console.log(res.data);
+                        localStorage.removeItem('auth')
+                        localStorage.removeItem('currentUser')
+                        // location.reload()
+                    }
                     commit('setUser', res.data.data)
                 })
                 .catch(function (error) {});

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\PermissionImport;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PermissionController extends FatherController
 {
@@ -108,6 +110,27 @@ class PermissionController extends FatherController
         }
         if ($succes) {
             return $this->responseApp(Role::with('permissions')->get(), true, []);
+        } else {
+            return $this->responseApp($error, false, []);
+        }
+    }
+
+    public function import(Request $request)
+    {
+        $succes = '';
+        $error = "";
+        DB::beginTransaction();
+        try {
+            Excel::import(new PermissionImport, request()->file('file'));
+            $succes = true;
+            DB::commit();
+        } catch (\Throwable $th) {
+            $succes = false;
+            $error = $th->getMessage();
+            DB::rollBack();
+        }
+        if ($succes) {
+            return $this->responseApp(Permission::all(), true, []);
         } else {
             return $this->responseApp($error, false, []);
         }

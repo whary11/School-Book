@@ -36,6 +36,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         //Permisos vs usuarios
         Route::get('allUsers', 'PermissionController@allUsers');
         Route::post('assign_permissions_to_user', 'PermissionController@assignPermissionsToUser');
+        Route::post('permissions/import', 'PermissionController@import'); ///api/permissions/import
     });
     Route::group(['prefix' => 'auth'], function () {
         Route::post('logout', 'AuthController@logout');
