@@ -18,6 +18,15 @@ const stores = new Vuex.Store({
 
 
         setUser(state, data) {
+            let permissions = data.permissions;
+            data.roles.map(rol => {
+                console.log('algo');
+                rol.permissions.map(permission => {
+                    permissions.push(permission)
+                })
+            })
+
+            localStorage.setItem('permissions', JSON.stringify(permissions))
             state.user = data
         }
 
@@ -39,7 +48,6 @@ const stores = new Vuex.Store({
                 .get("/api/auth/getUser")
                 .then(res => {
                     if (!res.data.transaction.status && res.data.message.type == 'token') {
-                        console.log(res.data);
                         localStorage.removeItem('auth')
                         localStorage.removeItem('currentUser')
                         // location.reload()

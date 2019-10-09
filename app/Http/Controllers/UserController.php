@@ -23,7 +23,7 @@ class UserController extends FatherController
 {
     public function getUser()
     {
-        $user = User::where('id', Auth::id())->with(['permissions', 'roles'])->first();
+        $user = User::where('id', Auth::id())->with(['permissions', 'roles.permissions'])->first();
         return  $this->responseApp($user, true, ['type' => 'success', 'content' => 'Registros consultados con éxito.']);
     }
 
