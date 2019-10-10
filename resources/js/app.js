@@ -82,7 +82,14 @@ window.Vue = require('vue');
 /// Uses
 
 Vue.use(VueRouter)
-Vue.use(ClientTable);
+// Vue.use(ClientTable);
+// Vue.use(ClientTable, [options = {}], [useVuex = false], [theme = 'bootstrap3'], [template = 'default']);
+
+
+Vue.use(ClientTable, [{
+    perPage: 2
+}]);
+
 Vue.use(Message)
 Vue.use(VueSweetalert2, {
     confirmButtonColor: '#41b882',

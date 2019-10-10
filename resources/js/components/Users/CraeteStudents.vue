@@ -1,5 +1,7 @@
 <template>
   <div>
+    <div id="algo" v-permissions="['import students']">no mas, borrate</div>
+
     <Users :table="table" :config="config" />
   </div>
 </template>
@@ -19,6 +21,7 @@ export default {
           "surnames",
           "email",
           "is_active",
+          "sex.name",
           "Acciones"
         ]
       },

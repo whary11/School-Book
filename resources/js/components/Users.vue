@@ -31,15 +31,13 @@
         </div>
       </div>
 
-      <div id="algo" v-permissions="['import students']">no mas, borrate</div>
-
       <div class="card-body">
         <v-client-table
           :pagination="{edge:true}"
           :data="rows"
           :columns="table.columns"
           :options="{
-        texts,headings,perPage,collapseGroups,pagination
+        texts,headings,collapseGroups,pagination,listColumns, filterByColumn:true, filterable
         }"
           class="table-sm"
         >
@@ -561,6 +559,15 @@ export default {
   },
   data() {
     return {
+      filterable: [
+        "names",
+        "surnames",
+        "document",
+        "email",
+        "sex.name",
+        "is_active"
+      ],
+      columnsFilteredSelect: ["names"], //Nombre de las columnas que tendrán la funcionalidad de filtro por select
       rows: [],
       showAlert: 0,
       optionComplements: [],
@@ -592,12 +599,13 @@ export default {
         names: "Nombre",
         surnames: "Apellidos",
         email: "Email",
+        "sex.name": "Sexo",
         is_active: "Estado"
       },
       pagination: { nav: "scroll", chunk: 6 },
 
       collapseGroups: true,
-      perPage: 20,
+      perPage: 10,
       texts: {
         count:
           "Montrando del {from} al {to} de {count} Registros|{count} Registros|1 rol",
@@ -783,6 +791,31 @@ export default {
     }
   },
   computed: {
+    listColumns() {
+      let listColumns = {};
+
+      this.columnsFilteredSelect.map(col => {
+        listColumns[col] = [];
+      });
+
+      this.rows.map(row => {
+        for (const key in row) {
+          if (listColumns.hasOwnProperty(key)) {
+            if (listColumns[key].length == 0) {
+              listColumns[key].push({ id: row[key], text: row[key] });
+            } else {
+              listColumns[key].map(q => {
+                if (q.id != row[key]) {
+                  listColumns[key].push({ id: row[key], text: row[key] });
+                }
+              });
+            }
+          }
+        }
+      });
+
+      return listColumns;
+    },
     validation() {
       let count = 0;
       this.showAlert =
@@ -835,5 +868,12 @@ export default {
 .vs__dropdown-toggle {
   border: 1px solid #e4e7ea !important;
   height: calc(1.5em + 0.75rem + 2px);
+}
+.VueTables__child-row-toggler--closed::before {
+  content: "+";
+}
+
+.VueTables__child-row-toggler--open::before {
+  content: "-";
 }
 </style>
