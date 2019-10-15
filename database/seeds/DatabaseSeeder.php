@@ -1,6 +1,8 @@
 <?php
 
 use App\Arl;
+use App\Status;
+use App\Degrees;
 use Illuminate\Support\Facades\Artisan;
 use App\SchoolHeadquarterUser;
 use App\SchoolHeadquarter;
@@ -10,6 +12,7 @@ use App\Compensation;
 use App\BloodGroup;
 use App\DocumentType;
 use App\Eps;
+use App\Level;
 use App\Sex;
 use App\User;
 use Spatie\Permission\Models\Role;
@@ -174,5 +177,52 @@ class DatabaseSeeder extends Seeder
         $luis->assignRole('SUPERADMIN');
 
         Artisan::call('passport:install');
+
+        $a = Level::create([
+            'name' => 'A'
+        ]);
+        $b = Level::create([
+            'name' => 'B'
+        ]);
+
+        Degrees::create([
+            'name' => 6,
+            'level_id' => $a->id
+        ]);
+        Degrees::create([
+            'name' => 6,
+            'level_id' => $b->id
+        ]);
+
+        Degrees::create([
+            'name' => 7,
+            'level_id' => $a->id
+        ]);
+        Degrees::create([
+            'name' => 7,
+            'level_id' => $b->id
+        ]);
+
+        Degrees::create([
+            'name' => 8,
+            'level_id' => $a->id
+        ]);
+        Degrees::create([
+            'name' => 8,
+            'level_id' => $b->id
+        ]);
+
+        Status::create([
+            'name' => 'En curso',
+            'type' => 'student_degree'
+        ]);
+        Status::create([
+            'name' => 'Aprobado',
+            'type' => 'student_degree'
+        ]);
+        Status::create([
+            'name' => 'Reprobado',
+            'type' => 'student_degree'
+        ]);
     }
 }

@@ -27,6 +27,7 @@ const stores = new Vuex.Store({
             })
 
             localStorage.setItem('permissions', JSON.stringify(permissions))
+            localStorage.setItem('roles', JSON.stringify(data.roles))
             state.user = data
         }
 
@@ -61,8 +62,9 @@ const stores = new Vuex.Store({
         rediretNoAuth({
             commit
         }) {
-            localStorage.removeItem('auth')
-            localStorage.removeItem('currentUser')
+            localStorage.clear()
+            // localStorage.removeItem('auth')
+            // localStorage.removeItem('currentUser')
             location.reload()
         }
 

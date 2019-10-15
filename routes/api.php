@@ -50,4 +50,9 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::post('/importUsers', 'UserController@importUsers');
         Route::get('/changeState/{user_id}/{newState}/{rol}', 'UserController@changeState');
     });
+    Route::group(['prefix' => 'enrollment'], function () {
+        Route::get('/getOptions', 'MatriculaController@getOptions');
+        Route::get('/getStudents/{year}/{degree}', 'MatriculaController@getStudents');
+        Route::post('/assignStudentDegrees', 'MatriculaController@assignStudentDegrees');
+    });
 });

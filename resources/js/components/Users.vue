@@ -14,7 +14,7 @@
               }"
               style="cursor:pointer"
             >Nuevo {{config.scope}}</label>
-            <span class="input-group-append div_import" v-permissions="['import students']">
+            <span class="input-group-append div_import" v-permissions="'import students'">
               <input
                 type="file"
                 @change="validaPlano"

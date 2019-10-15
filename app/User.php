@@ -98,4 +98,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(DocumentType::class, 'document_type_user_id');
     }
+
+    public function degree() //Grado
+    {
+        return $this->belongsToMany(Degrees::class, "student_degree", 'user_id', 'degree_id')->withTimestamps();
+    }
 }

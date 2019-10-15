@@ -188,6 +188,11 @@
                 </li>
               </ul>
             </li>
+            <li class="nav-item">
+              <router-link tag="a" to="/gateway/enrollments" class="nav-link">
+                <i class="nav-icon fas fa-address-card"></i> Matriculas
+              </router-link>
+            </li>
           </ul>
         </nav>
         <button class="sidebar-minimizer brand-minimizer" type="button"></button>
@@ -631,8 +636,7 @@ export default {
           if (resp.data.message.type == "token") {
             this.rediretNoAuth();
           } else {
-            localStorage.removeItem("auth");
-            localStorage.removeItem("currentUser");
+            localStorage.clear();
             location.reload();
           }
         })

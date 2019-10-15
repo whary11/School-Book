@@ -7,6 +7,7 @@ import PermissionsRoles from '../components/Roles/PermissionsRoles'
 import CreateStudents from '../components/Users/CraeteStudents'
 import CreateTeachers from '../components/Users/CreateTeachers'
 import Perfil from '../components/Users/Perfil'
+import Enrollment from '../components/Enrollment/Enrollment.vue'
 // import Login from '../components/auth/LoginComponent'
 
 const routes = [{
@@ -104,6 +105,21 @@ const routes = [{
         path: '/gateway/perfil',
         name: 'perfil',
         component: Perfil,
+        beforeEnter: (to, from, next) => {
+            if (JSON.parse(localStorage.getItem('auth'))) {
+                next(true)
+            } else {
+                next({
+                    path: '/gateway/login'
+                })
+            }
+        }
+
+    },
+    {
+        path: '/gateway/enrollments',
+        name: 'enrollments',
+        component: Enrollment,
         beforeEnter: (to, from, next) => {
             if (JSON.parse(localStorage.getItem('auth'))) {
                 next(true)
