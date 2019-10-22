@@ -33,4 +33,8 @@ mix.js([
         'node_modules/simple-line-icons/css/simple-line-icons.css',
         'resources/sass/style.css',
         'resources/sass/pace.min.css',
-    ], 'css/appcolegios.min.css')
+        'resources/sass/app.scss',
+
+        'resources/sass/themify-icons.css'
+        // 'node_modules/themify-icons/themify-icons/',
+    ], 'public/css/appcolegios.min.css')

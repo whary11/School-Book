@@ -28,6 +28,8 @@ import age from './admin/filters/age'
 import Vue from 'vue';
 // Import component
 import Loading from 'vue-loading-overlay';
+import VueFormWizard from 'vue-form-wizard'
+import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 // Import stylesheet
 import 'vue-loading-overlay/dist/vue-loading.css';
 // Init plugin
@@ -103,6 +105,7 @@ Vue.use(Permissions)
 Vue.use(Loading, {
     color: "red"
 });
+Vue.use(VueFormWizard)
 
 /**
  * The following block of code may be used to automatically register your

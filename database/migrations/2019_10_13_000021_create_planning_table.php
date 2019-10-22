@@ -24,6 +24,12 @@ class CreatePlanningTable extends Migration
             $table->unsignedInteger('planning_teacher_id');
             $table->unsignedInteger('degree_planning_id');
             $table->unsignedInteger('planning_statu_id');
+            $table->string('objective', 45);
+            $table->string('methodology', 45);
+            $table->string('achievement', 45)->comment('Logro');
+            $table->string('strategy', 45);
+            $table->string('tracing', 45)->comment('Seguimiento');
+            $table->string('observations', 200)->nullable();
 
             $table->index(["degree_planning_id"], 'degree_planning_id_idx');
 

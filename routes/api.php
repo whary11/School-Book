@@ -55,4 +55,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('/getStudents/{year}/{degree}', 'MatriculaController@getStudents');
         Route::post('/assignStudentDegrees', 'MatriculaController@assignStudentDegrees');
     });
+    Route::group(['prefix' => 'planning'], function () {
+        Route::get('/getOptions', 'PlanningController@getOptions');
+    });
 });

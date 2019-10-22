@@ -7,7 +7,10 @@ import PermissionsRoles from '../components/Roles/PermissionsRoles'
 import CreateStudents from '../components/Users/CraeteStudents'
 import CreateTeachers from '../components/Users/CreateTeachers'
 import Perfil from '../components/Users/Perfil'
-import Enrollment from '../components/Enrollment/Enrollment.vue'
+import Enrollment from '../components/Enrollment/Enrollment'
+
+import CreatePlanning from '../components/Planning/CreatePlanning'
+import EditPlanning from '../components/Planning/EditPlanning'
 // import Login from '../components/auth/LoginComponent'
 
 const routes = [{
@@ -74,6 +77,36 @@ const routes = [{
         path: '/gateway/students',
         name: 'students',
         component: CreateStudents,
+        beforeEnter: (to, from, next) => {
+            if (JSON.parse(localStorage.getItem('auth'))) {
+                next(true)
+            } else {
+                next({
+                    path: '/gateway/login'
+                })
+            }
+        }
+
+    },
+    {
+        path: '/gateway/create-planning',
+        name: 'create-planning',
+        component: CreatePlanning,
+        beforeEnter: (to, from, next) => {
+            if (JSON.parse(localStorage.getItem('auth'))) {
+                next(true)
+            } else {
+                next({
+                    path: '/gateway/login'
+                })
+            }
+        }
+
+    },
+    {
+        path: '/gateway/edit-planning',
+        name: 'edit-planning',
+        component: EditPlanning,
         beforeEnter: (to, from, next) => {
             if (JSON.parse(localStorage.getItem('auth'))) {
                 next(true)
