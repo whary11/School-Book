@@ -29,7 +29,7 @@
         "font-awesome": "^4.7.0",
         "jquery": "^3.4.1",
         "laravel-mix": "^4.0.7",
-        "lodash": "^4.17.13",
+        "lodash": "^4.17.19",
         "luxon": "^1.19.3",
         "mdbootstrap": "^4.8.10",
         "mdbvue": "^5.8.2",
