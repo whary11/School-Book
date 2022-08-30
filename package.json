@@ -33,7 +33,7 @@
         "luxon": "^1.19.3",
         "mdbootstrap": "^4.8.10",
         "mdbvue": "^5.8.2",
-        "moment-timezone": "^0.5.26",
+        "moment-timezone": "^0.5.35",
         "pace": "0.0.4",
         "pace-progress": "^1.0.2",
         "perfect-scrollbar": "^1.4.0",
