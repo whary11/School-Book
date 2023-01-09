@@ -30,7 +30,7 @@
         "jquery": "^3.4.1",
         "laravel-mix": "^4.0.7",
         "lodash": "^4.17.13",
-        "luxon": "^1.19.3",
+        "luxon": "^2.5.2",
         "mdbootstrap": "^4.8.10",
         "mdbvue": "^5.8.2",
         "moment-timezone": "^0.5.26",
